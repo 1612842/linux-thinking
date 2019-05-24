@@ -91,6 +91,7 @@
 
 -   `Local domain sockets` được sử dụng để kết nối giữa 2 tiến trình. Chúng được dùng bởi các dịch vụ X windows, syslog, ...Không giống như named pipes chỉ cho phép unidirectional data flow, socket hỗ trợ duplex-capable
     ![](media/s.png)
+
 ## Process
 
 ### Khái niệm
@@ -141,6 +142,7 @@
     -   Chỉ đơn giản là code, chứa các executable instructions của một chương trình
     -   Được đặt dưới heap và stack để ngăn heap và stack ghi đè lên nó
     -   Text segment có thể sharable để 1 bản copy trong bộ nhớ cho các chương trình thường xuyên sử dụng, thường là read-only để tránh chương trình modify nó
+
 ## Thread
 
 ###   Khái niệm Thread
@@ -202,6 +204,7 @@ Vì thuật toán chuyển đổi việc thực thi giữa các threads có th�
     -   Hold and Wait (giữ và chờ): tiến trình đang giữ tài nguyên và yêu cầu thêm tài nguyên mới
     -   No Preemption (không thu hồi): hệ thống không thể thu hồi tài nguyên cấp cho 1 tiến trình nào đó, trừ khi tiến trình này trả lại tài nguyên
     -   Circular wait (vòng tròn chờ): Quá trình phải chờ tài nguyên theo kiểu vòng tròn. Giả sử chúng ta có ba quy trình {P0, P1, P2}. P0 phải chờ tài nguyên do P1 nắm giữ; P1 phải chờ để có được tài nguyên được giữ bởi quy trình P2 và P2 phải chờ để có được quy trình do P0 nắm giữ
+
 ## Synchronization
 
 ###   Khái niệm `Semaphore`, so sánh `Semaphore` với `Mutex`
@@ -257,6 +260,7 @@ Vì thuật toán chuyển đổi việc thực thi giữa các threads có th�
     ```
 
 -   Trong giải pháp này, tiến trình đọc đầu tiên thực hiện lệnh down(db) trên semaphore db để vào miền găng, các tiến trình tiếp theo chỉ việc tăng biến đếm rc. Nếu thằng cuối cùng đọc xong (rc==0) nó up(db) để cho phép tiến trình ghi được vào miền găng
+
 ## Networking
 
 ### Socket
