@@ -9,7 +9,7 @@
 #include <time.h>
 
 #define PORT 8080
-#define MAX 80
+#define MAX 800
 
 struct Client
 {
@@ -184,7 +184,14 @@ void *connection_handler(void *socket_descriptor)
             printf("%s\n", content);
 
             
-            write(sock, content, sizeof(content));
+            for (int i = 0; i < max_clients; i++)
+            {
+                if (clientInfo[i].active==1){
+                    write(clientInfo[i].sock, content, sizeof(content));
+                }
+            }
+            
+
             printf("all file recv...\n");
             
             
@@ -338,7 +345,7 @@ void rankingAllSum(){
         for (int j = i+1; j < numOfFileCalcedSum; j++)
         {
             if (rankClient[i].sum<rankClient[j].sum){
-                struct Rank temp= rankClient[i];
+                struct Rank temp = rankClient[i];
                 rankClient[i]=rankClient[j];
                 rankClient[j]=temp;
             }

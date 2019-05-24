@@ -1,1 +1,2 @@
-server has received file
+Rank: 1 - Client: 0 - Sum: 180
+Rank: 2 - Client: 1 - Sum: 98
