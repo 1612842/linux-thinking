@@ -265,6 +265,7 @@ Vì thuật toán chuyển đổi việc thực thi giữa các threads có th�
 
 ### Socket
 >  Socket là một cổng logic mà một chương trình sử dụng để kết nối với một chương trình khác chạy trên một máy tính khác trên Internet. Chương trình mạng có thể sử dụng nhiều socket cùng một lúc, nhờ đó nhiều chương trình có thể sử dụng Internet cùng một lúc
+
 -   Socket là điểm cuối trong quá trình truyền thông. Mỗi tiến trình tham gia truyền thông cần phải có socket
 -   Một socket được xác định nhờ một cặp gồm có: địa chỉ IP của máy tính và một port
 -   Về tổng quan, giao tiếp của socket theo mô hình Client-Server
