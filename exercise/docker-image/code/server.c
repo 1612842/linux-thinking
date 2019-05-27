@@ -9,7 +9,7 @@
 #include <time.h>
 
 #define PORT 8080
-#define MAX 800
+#define MAX 1024
 
 struct Client
 {
@@ -207,7 +207,12 @@ void *connection_handler(void *socket_descriptor)
                 {
                     isOver=1;
                     strcpy(buff, "over");
-                    write(sock, buff, sizeof(buff));
+                    for (int i = 0; i < max_clients; i++)
+                    {
+                        if (clientInfo[i].active==1){
+                            write(clientInfo[i].sock, buff, sizeof(buff));
+                        }
+                    }
                 }
                 else
                 {

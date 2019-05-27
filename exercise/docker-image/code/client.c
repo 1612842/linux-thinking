@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
-#define MAX 800
+#define MAX 1024
 #define PORT 8080
 #define SA struct sockaddr
 
@@ -11,6 +11,7 @@ int *arr;
 int sizeOfArr = 0;
 int isOver = 0;
 int isFull=0;
+int isAuto = 0;
 FILE *f;
 
 void chat(int sockfd)
@@ -18,6 +19,8 @@ void chat(int sockfd)
     char buff[MAX];
     int n, id;
     int tmp = 0;
+
+      
 
     while (1)
     {
@@ -83,13 +86,24 @@ void chat(int sockfd)
             if (isFull) continue;
 
             bzero(buff, sizeof(buff));
-            printf("Client %d: ", id);
-            n = 0;
-            while ((buff[n++] = getchar()) != '\n')
-                ;
+            
+            
+            if (isAuto==0)
+            {
+                printf("Client %d: ", id);
+                n = 0;
+                while ((buff[n++] = getchar()) != '\n');
+                write(sockfd, buff, sizeof(buff));
+            }
+            // if (strcmp(buff,"auto\n")==0)
+            //     isAuto=1;
 
-            write(sockfd, buff, sizeof(buff));
-
+            if (isAuto==1)
+            {
+                strcpy(buff,"get\n");
+                write(sockfd, buff, sizeof(buff));
+            }
+            
             if ((strncmp(buff, "exit", 4)) == 0)
             {
                 printf("Client Exit...\n");
@@ -99,9 +113,14 @@ void chat(int sockfd)
     }
 }
 
-int main()
+int main(int argc, char** argv)
 {
-
+    if (argc==2){
+        if (strcmp(argv[1],"auto")==0){
+            isAuto=1; 
+        }
+    }
+    
     createSocketAndConnectServer();
 }
 
