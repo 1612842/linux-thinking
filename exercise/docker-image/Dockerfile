@@ -1,4 +1,4 @@
- FROM gcc:7.4.0
+FROM gcc:7.4.0
 MAINTAINER conglt
 RUN mkdir /home/code
 WORKDIR /home/code
