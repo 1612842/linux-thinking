@@ -9,7 +9,8 @@
 #include <time.h>
 
 #define PORT 8080
-#define MAX 800
+#define MAX 1024
+#define MAX_NUM 100
 
 struct Client
 {
@@ -18,14 +19,15 @@ struct Client
     int isOver;
 } * clientInfo;
 
+int cur_clients = 0;
 int max_clients = 4;
-int min_clients = 2;
 int *arr;
 int sizeOfArr = 5;
 int posNum = 0;
 pthread_mutex_t lock;
 int numOfFileCalcedSum = 0;
 int isOver =0;
+int isOutOfSlot=0;
 struct Rank
 {
     int clientId;
@@ -36,9 +38,17 @@ void *connection_handler(void *);
 
 int main(int argc, char *argv[])
 {
+    if (argc >= 3){
+        sizeOfArr=atoi(argv[2]);
+    }
+    if (argc >=2){
+        max_clients=atoi(argv[1]);
+    }
+
     int socket_descriptor, client_sock, c, *new_sock;
     struct sockaddr_in server, client;
 
+    printf("Max clients: %d\n",max_clients);
     randomArr(sizeOfArr);
     printArr();
     initializeClientInfo();
@@ -81,7 +91,13 @@ int main(int argc, char *argv[])
 
     while (client_sock = accept(socket_descriptor, (struct sockaddr *)&client, (socklen_t *)&c))
     {
-        puts("Connection accepted");
+        cur_clients++;
+        if (cur_clients>max_clients){
+            puts("Out of slots!!!");
+            isOutOfSlot=1;
+        }
+        else
+            puts("Connection accepted");
 
         char buff[MAX];
         pthread_t thread_id;
@@ -98,7 +114,7 @@ int main(int argc, char *argv[])
         for (int i = 0; i < max_clients; i++)
         {
             if (clientInfo[i].active == 0)
-            {
+            { 
                 clientInfo[i].active = 1;
                 clientInfo[i].sock = *(int *)new_sock;
                 cid = i;
@@ -106,10 +122,23 @@ int main(int argc, char *argv[])
             }
         }
 
-        bzero(buff, sizeof(buff));
-        sprintf(buff, "%d", cid);
-        write(clientInfo[cid].sock, buff, sizeof(buff));
-        printf("Client %s is assigned\n", buff);
+        if (isOutOfSlot==0)
+        {
+            bzero(buff, sizeof(buff));
+            sprintf(buff, "%d", cid);
+            write(clientInfo[cid].sock, buff, sizeof(buff));
+            printf("Client %s is assigned\n", buff);
+        }
+        else
+        {
+            char tmp[MAX];
+            bzero(tmp,MAX);
+            strcpy(tmp,"Out of slots!!!");
+            
+            write(*(int *)new_sock, tmp, sizeof(tmp));
+        }
+        
+        
     }
 
     if (client_sock < 0)
@@ -143,14 +172,25 @@ void *connection_handler(void *socket_descriptor)
 
         if (index == 0)
         {
-            clientInfo[idClient].active = 0;
-            printf("Client %d quit\n", idClient);
-            break;
+            if (cur_clients>max_clients){
+                cur_clients--;
+                
+                if (cur_clients<=max_clients)
+                    isOutOfSlot=0;
+                break;                
+            }
+            else
+            {   
+                clientInfo[idClient].active = 0;
+                printf("Client %d quit\n", idClient);
+                cur_clients--;
+                break;
+            }
         }
 
         if (clientInfo[idClient].isOver == 1)
         {
-            pthread_mutex_lock(&lock);
+            
 
             char filename[MAX];
             sprintf(filename, "server-%d.txt", idClient);
@@ -163,7 +203,10 @@ void *connection_handler(void *socket_descriptor)
             strcpy(tmp, "server has received file");
             write(sock, tmp, sizeof(buff));
 
-            pthread_mutex_unlock(&lock);
+            
+        }else if (strcmp(buff, "get\n")!=0&&strcmp(buff, "post\n")!=0){
+                strcpy(buff, "?");
+                write(sock, buff, sizeof(buff));
         }
 
         // print buffer which contains the client contents
@@ -250,7 +293,7 @@ void randomArr(int size)
     srand(time(NULL));
     for (int i = 0; i < size; i++)
     {
-        arr[i] = rand() % 100;
+        arr[i] = rand() % MAX_NUM;
     }
 }
 
