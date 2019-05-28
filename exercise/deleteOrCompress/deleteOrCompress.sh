@@ -1,17 +1,16 @@
 #!/bin/bash
-clear
-############ VARS - FOR TESTING #############
+
 SCRIPT=${0##*/}
 RUNUSER=$(whoami)
-SIZE=102400  #100k
-TARGETDIR=/home/${RUNUSER}/Documents/conglt/02-linux-thinking/ex/test
-LOG=/home/${RUNUSER}/Documents/conglt/02-linux-thinking/ex/test/${SCRIPT%%.sh}_${RUNUSER}.log
-FILES=($(find ${TARGETDIR} -type f -size -${SIZE}c))
+SIZE=100 
+TARGETDIR=/home/${RUNUSER}/Desktop/linux-thinking
+LOG=/home/${RUNUSER}/Desktop/linux-thinking/${SCRIPT%%.sh}_${RUNUSER}.log
+FILES=($(find ${TARGETDIR} -type f -size +${SIZE}k))
  
-############ MAIN - FOR TESTING #############
+
 echo "Showing all files larger than ${SIZE} bytes in ${TARGETDIR} sorted by size."
-find ${TARGETDIR} -type f -size -${SIZE}c -ls | sort -k2n
-echo -e "\n\n____File menu____"
+find ${TARGETDIR} -type f -size +${SIZE}k -ls | sort -k2n
+echo -e "\n\n------File menu------"
 while [[ ${#FILES[@]} -gt 0 ]]; do
         PS3="Please choose a file:"
         select file in ${FILES[@]}
@@ -54,6 +53,6 @@ case ${option} in
                 ;;
 esac
  
-FILES=($(find ${TARGETDIR} -type f -size -${SIZE}c))
+FILES=($(find ${TARGETDIR} -type f -size +${SIZE}k))
  
 done

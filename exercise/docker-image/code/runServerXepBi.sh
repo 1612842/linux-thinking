@@ -2,4 +2,4 @@
 
 make clean
 make all
-./server.o
+./server.o 10 100

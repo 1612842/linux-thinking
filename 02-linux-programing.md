@@ -342,9 +342,9 @@ Vì thuật toán chuyển đổi việc thực thi giữa các threads có th�
 
 ## Trò chơi xếp bi
 
-[Server code](exercise/xepBi/server.c)
+[Server code](exercise/docker-image/code/server.c)
 
-[Client code](exercise/xepBi/client.c)
+[Client code](exercise/docker-image/code/client.c)
 
 # Nguồn tham khảo
 

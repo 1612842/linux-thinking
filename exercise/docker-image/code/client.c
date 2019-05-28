@@ -3,11 +3,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
+#include <unistd.h>
+
 #define MAX 1024
 #define PORT 8080
 #define SA struct sockaddr
+#define MAX_SIZE 1000
 
-int *arr;
+int arr[MAX_SIZE];
 int sizeOfArr = 0;
 int isOver = 0;
 int isFull=0;
@@ -28,44 +31,56 @@ void chat(int sockfd)
         bzero(buff, sizeof(buff));
         read(sockfd, buff, sizeof(buff));
 
+        if (strcmp(buff,"Out of slots!!!")==0){
+            puts("Out of slots!!!");
+            return;
+        }
 
         if (tmp == 0)
             id = atoi(buff);
         else
         {
                 printf("Server reponse: %s\n", buff);
-                
-                char filename[MAX];
-                sprintf(filename, "result-%d.txt", id);    
-                FILE* fres = fopen(filename, "w");
-                fprintf(fres,"%s",buff);
-                fclose(fres);
 
-                if (strcmp(buff, "over") != 0)
-                {
-                    writeToFile(id, buff);
-                }
-                else
-                {
-                    isOver = 1;
+                if (isFull){
                     char filename[MAX];
-                    sprintf(filename, "client-%d.txt", id);
-                    if (sizeOfArr == 0)
-                        f = fopen(filename, "w");
-                    else
-                        f = fopen(filename, "r");
-
-                    fseek(f, 0L, SEEK_END);
-                    // calculating the size of the file
-                    int count = ftell(f);
-                    fclose(f);
-
-                    bzero(buff, sizeof(buff));
-                    strcpy(buff, "post\n");
-                    write(sockfd, buff, sizeof(buff));
-
-                    printf("send file: %d bytes\n", count);
+                    sprintf(filename, "result-%d.txt", id);    
+                    FILE* fres = fopen(filename, "w");
+                    fprintf(fres,"%s",buff);
+                    fclose(fres);
                 }
+
+                if (strcmp(buff, "?")!=0) {
+                    
+
+                    if (strcmp(buff, "over")!=0)
+                    {
+                        writeToFile(id, buff);
+                    }
+                    else
+                    {
+                        isOver = 1;
+                        char filename[MAX];
+                        sprintf(filename, "client-%d.txt", id);
+                        if (sizeOfArr == 0)
+                            f = fopen(filename, "w");
+                        else
+                            f = fopen(filename, "r");
+
+                        fseek(f, 0L, SEEK_END);
+                        // calculating the size of the file
+                        int count = ftell(f);
+                        fclose(f);
+
+                        bzero(buff, sizeof(buff));
+                        strcpy(buff, "post\n");
+                        write(sockfd, buff, sizeof(buff));
+
+                        printf("send file: %d bytes\n", count);
+                    }
+                }
+
+                
         }
         tmp = 1;
 
@@ -95,8 +110,6 @@ void chat(int sockfd)
                 while ((buff[n++] = getchar()) != '\n');
                 write(sockfd, buff, sizeof(buff));
             }
-            // if (strcmp(buff,"auto\n")==0)
-            //     isAuto=1;
 
             if (isAuto==1)
             {
@@ -110,6 +123,9 @@ void chat(int sockfd)
                 break;
             }
         }
+
+        if (isAuto==1)
+            sleep(1);
     }
 }
 
@@ -159,19 +175,19 @@ void writeToFile(int id, char *buff)
 {
     char filename[MAX];
     sprintf(filename, "client-%d.txt", id);
-    f = fopen(filename, "w");
+    
 
     if (isFull==0){
+        f = fopen(filename, "w");
         int num = atoi(buff);
         sizeOfArr++;
-        arr = (int *)realloc(arr, sizeOfArr);
+        //arr = (int *)realloc(arr, sizeOfArr);
         arr[sizeOfArr - 1] = num;
 
         sort(arr, sizeOfArr);
         printArr(arr, sizeOfArr, f);
+        fclose(f);
     }
-
-    fclose(f);
 }
 
 void printArr(int *arr, int size, FILE *f)

@@ -112,7 +112,102 @@ $ sudo apt-get install docker.io
 $ docker -v
 Docker version 18.09.2, build 6247962
 ```
+-   Pull một image từ Docker Hub
 
+```docker
+docker pull {image_name}
+```
+
+-   Liệt kê các images hiện có
+
+```docker
+docker images
+```
+
+-   Xóa một image
+
+```docker
+docker rmi {image_id/name}
+```
+
+-   Liệt kê các container đang chạy
+
+```docker
+docker ps
+docker ps -a #Liệt kê các container đã tắt
+```
+
+-   Xóa một container
+
+```docker
+docker rm -f {container_id/name}
+```
+
+-   Đổi tên một container
+
+```docker
+docker rename {old_container_name} {new_container_name}
+```
+
+-   Khởi động một container 
+
+```docker
+docker start {new_container_name}
+docker exec -it {new_container_name} /bin/bash
+```
+
+-   Tạo mới một container, đồng thời khởi động với tùy chọn cổng và volume
+
+```docker
+docker run --name {container_name} -p {host_port}:{container_port} -v {/host_path}:{/container_path} -it {image_name} /bin/bash
+```
+
+-   Xem các thay đổi trên container
+
+```docker
+docker diff {container_name}
+```
+
+-   Commit các thay đổi trên container và image
+
+```docker
+docker commit -m "message" {container_name} {image_name}
+```
+
+-   Save image thành file .tar
+
+```docker
+docker save {image_name} > {/host_path/new_image.tar}
+```
+
+-   Tạo một image mới từ file .tar
+
+```docker
+cat musashi.tar | docker import - {new_image_name}:latest
+```
+
+-   Xem lịch sử các commit trên image
+
+```docker
+docker history {image_name}
+```
+
+-   Khôi phục lại images từ IMAGE_ID
+
+```docker
+docker tag {iamge_id} {image_new_name}:{tag}
+```
+
+-   Build một image từ container
+
+```docker
+docker build -t {container_name} .
+```
+
+-   Sự khác biệt giữa `docker exec`, `docker run` và `docker start`
+    -   `docker exec`: vận hành container docker hiện có hay đã tồn tại
+    -   `docker run`: thao tác đến các images đã tồn tại hoặc truy xuất từ localhost, mỗi lần chạy command sẽ tạo ra 1 container mới tương ứng
+    -   `docker start`: bắt đầu lại container và khởi động container chạy đến lần xử lý dừng tiếp theo
 
 # Viết Dockerfile cơ bản
 
@@ -237,3 +332,5 @@ https://docs.docker.com/install/
 https://viblo.asia/p/docker-nhung-kien-thuc-co-ban-phan-1-bJzKmM1kK9N
 
 https://viblo.asia/p/docker-chua-biet-gi-den-biet-dung-phan-1-lich-su-ByEZkWrEZQ0
+
+https://kipalog.com/posts/Cac-lenh-co-ban-voi-docker
