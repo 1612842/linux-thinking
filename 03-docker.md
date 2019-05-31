@@ -44,6 +44,7 @@
 # 3. Container
 
 ## 3.1. Tiểu sử 
+
 -   Ngày xưa, mỗi máy chỉ chạy 1 OS có cấu tạo sau: `máy chủ vật lý` + `hệ điều hành (OS)` + `application`
   
     <div align="center">
@@ -67,6 +68,7 @@
     -   Trên 1 máy chủ vật lý, sinh ra nhiều máy con, máy con này dùng chung phần nhân của máy mẹ (Host OS) và chia sẻ nhau tài nguyên máy mẹ
     -   Khi nào tài nguyên cần thì cấp, sài bao nhiêu cấp bấy nhiêu
 
+
 ## 3.2. Đặc điểm
 
 -   Các phần mềm sẽ được `Container Engine` đóng gói thành các `container`
@@ -84,6 +86,7 @@
 -   Nhược điểm:
     -   Nếu Host OS có lỗ hỏng ở kernel sẽ ảnh hưởng toàn bộ container có trong host đấy
     -   Người dùng hoặc ứng dụng nào đấy trong container chiếm được quyền root có thể lấy data hay điều khiển máy host cũng như container khác
+
 # 4. Cách hoạt động
 -   Docker image là nền tảng của container, là khung xương để định hình container, khi chạy image sẽ tạo ra container. Giống như class so với thực thể
 -   Đối với Docker cần phải có image và container:
