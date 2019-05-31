@@ -1,4 +1,3 @@
-<!-- TOC -->
 - [1. Tất tần cơ bản về Docker](#1-t%E1%BA%A5t-t%E1%BA%A7n-c%C6%A1-b%E1%BA%A3n-v%E1%BB%81-docker)
 - [2. Giới thiệu](#2-gi%E1%BB%9Bi-thi%E1%BB%87u)
 - [3. Container](#3-container)
@@ -9,7 +8,7 @@
 - [6. Viết Dockerfile cơ bản](#6-vi%E1%BA%BFt-dockerfile-c%C6%A1-b%E1%BA%A3n)
 - [7. Thực hành với Xếp bi](#7-th%E1%BB%B1c-h%C3%A0nh-v%E1%BB%9Bi-x%E1%BA%BFp-bi)
 - [8. Nguồn tham khảo](#8-ngu%E1%BB%93n-tham-kh%E1%BA%A3o)
-<!-- /TOC -->
+
 
 # 1. Tất tần cơ bản về Docker
 

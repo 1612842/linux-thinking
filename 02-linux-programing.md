@@ -1,4 +1,3 @@
-<!-- TOC -->
 - [1. Lý thuyết](#1-l%C3%BD-thuy%E1%BA%BFt)
   - [1.1. File and File System in Linux](#11-file-and-file-system-in-linux)
     - [1.1.1. `File descriptor`](#111-file-descriptor)
@@ -25,7 +24,7 @@
   - [2.1. Viết chương trình C mô phỏng ls -l](#21-vi%E1%BA%BFt-ch%C6%B0%C6%A1ng-tr%C3%ACnh-c-m%C3%B4-ph%E1%BB%8Fng-ls--l)
   - [2.2. Trò chơi xếp bi](#22-tr%C3%B2-ch%C6%A1i-x%E1%BA%BFp-bi)
 - [3. Nguồn tham khảo](#3-ngu%E1%BB%93n-tham-kh%E1%BA%A3o)
-  <!-- /TOC -->
+
 
 # 1. Lý thuyết
 
