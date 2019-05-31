@@ -1,6 +1,35 @@
-# Lý thuyết
+<!-- TOC -->
+- [1. Lý thuyết](#1-l%C3%BD-thuy%E1%BA%BFt)
+  - [1.1. File and File System in Linux](#11-file-and-file-system-in-linux)
+    - [1.1.1. `File descriptor`](#111-file-descriptor)
+    - [1.1.2. `Regular files` and `Special files`](#112-regular-files-and-special-files)
+  - [1.2. Process](#12-process)
+    - [1.2.1. Khái niệm](#121-kh%C3%A1i-ni%E1%BB%87m)
+    - [1.2.2. `Memory Layout`](#122-memory-layout)
+  - [1.3. Thread](#13-thread)
+    - [1.3.1. Khái niệm Thread](#131-kh%C3%A1i-ni%E1%BB%87m-thread)
+    - [1.3.2. POSIX Thread](#132-posix-thread)
+    - [1.3.3. API trong POSIX](#133-api-trong-posix)
+    - [1.3.4. Multi-Threading, các vấn đề gặp phải](#134-multi-threading-c%C3%A1c-v%E1%BA%A5n-%C4%91%E1%BB%81-g%E1%BA%B7p-ph%E1%BA%A3i)
+    - [1.3.5. `Race condition` và `Deadlock`, cách ngăn chặn](#135-race-condition-v%C3%A0-deadlock-c%C3%A1ch-ng%C4%83n-ch%E1%BA%B7n)
+  - [1.4. Synchronization](#14-synchronization)
+    - [1.4.1. Khái niệm `Semaphore`, so sánh `Semaphore` với `Mutex`](#141-kh%C3%A1i-ni%E1%BB%87m-semaphore-so-s%C3%A1nh-semaphore-v%E1%BB%9Bi-mutex)
+    - [1.4.2. `Reader writer problem`](#142-reader-writer-problem)
+  - [1.5. Networking](#15-networking)
+    - [1.5.1. Socket](#151-socket)
+    - [1.5.2. TCP và UDP](#152-tcp-v%C3%A0-udp)
+    - [1.5.3. Nonblocking I/O và Blocking I/O](#153-nonblocking-io-v%C3%A0-blocking-io)
+      - [1.5.3.1. Blocking I/O](#1531-blocking-io)
+      - [1.5.3.2. Non-blocking I/O](#1532-non-blocking-io)
+- [2. Bài tập](#2-b%C3%A0i-t%E1%BA%ADp)
+  - [2.1. Viết chương trình C mô phỏng ls -l](#21-vi%E1%BA%BFt-ch%C6%B0%C6%A1ng-tr%C3%ACnh-c-m%C3%B4-ph%E1%BB%8Fng-ls--l)
+  - [2.2. Trò chơi xếp bi](#22-tr%C3%B2-ch%C6%A1i-x%E1%BA%BFp-bi)
+- [3. Nguồn tham khảo](#3-ngu%E1%BB%93n-tham-kh%E1%BA%A3o)
+  <!-- /TOC -->
 
-## File and File System in Linux
+# 1. Lý thuyết
+
+## 1.1. File and File System in Linux
 
 -   Triết lý của Linux: `everything-is-a-file`. Có nghĩa là mọi thứ trong hệ thống đều có thể được biểu diễn dưới dạng một file, từ file cổ điển .txt đến các đường dẫn (directory) hay các thiết bị như character device, socket.... Khi chúng ta sử dụng command "ls -la" để liệt kê các file trong đường dẫn hiện tại, ký tự đầu tiên của từng dòng chính là loại của file đó. Hệ điều hành Linux có các loại file sau đây:
   
@@ -16,7 +45,7 @@
 
 -   Cấu trúc thư mục và tập tin trong Linux ta đã đề cập ở phần linux shell. Phần này sẽ tìm hiểu `file descriptor` trong kernel, phân biệt `regular files` và `special files`
   
-### `File descriptor`
+### 1.1.1. `File descriptor`
 
 -   Về phía người sử dụng, file chứa data và được phân biệt với nhau bằng file name.
 -   Về phía hệ thống, file được phân biệt bằng chỉ số index node, viết tắt là inode. Mỗi file name có 1 inode đi kèm. Chỉ số inode tham chiếu đến 1 vùng nhớ trong đó có chứa địa chỉ vùng nhớ lưu trữ data.
@@ -40,7 +69,7 @@
 
     -   Mỗi một process sẽ có một bảng danh sách file descriptor riêng do kernel quản lý, kernel sẽ chuyển danh sách này sang danh sách file table quản lý toàn bộ file được truy cập bởi tất cả các process. File table này sẽ lưu lại chế độ mà file đó đang được sử dụng (đọc, ghi, chèn). Và file table này sẽ được mapping qua một bảng thứ 3 là inode table thật sự quản lý các file nằm bên dưới. Khi một tiến trình muốn đọc hoặc ghi file, tiến trình này sẽ chuyển file descriptor cho kernel xử lý (bằng các lệnh system call) và kernel sẽ truy cập file này thay cho process. Process không thể truy cập trực tiếp các file hoặc inode table
 
-### `Regular files` and `Special files`
+### 1.1.2. `Regular files` and `Special files`
 
 ```
     -   File thường (regular file)
@@ -92,9 +121,9 @@
 -   `Local domain sockets` được sử dụng để kết nối giữa 2 tiến trình. Chúng được dùng bởi các dịch vụ X windows, syslog, ...Không giống như named pipes chỉ cho phép unidirectional data flow, socket hỗ trợ duplex-capable
     ![](media/s.png)
 
-## Process
+## 1.2. Process
 
-### Khái niệm
+### 1.2.1. Khái niệm
 
 -   Một process là một chương trình đang hoạt động (đang chạy, đã được tải được lên bộ nhớ chính để hoạt động)
 -   Tuy nhiên, một chương trình không phải là process vì chương trình là một file hay folder bị động nằm trên máy
@@ -111,7 +140,7 @@
     5.  Khi process đang thực hiện và yêu cầu I/O hay tín hiệu khác. Ví dụ: cần in file word, process báo CPU, CPU báo máy in, máy in in ra rồi báo lại CPU, trong thời gian đó, để tiết kiệm thời gian, process sẽ chuyển sang trạng thái chờ, cho process khác vào thực hiện
     6.  Sau khi tín hiệu đến, process được sắp lại vào hàng đợi chờ thực thi
 
-### `Memory Layout`
+### 1.2.2. `Memory Layout`
 
 -   Sơ đồ Memory Layout
   
@@ -143,9 +172,9 @@
     -   Được đặt dưới heap và stack để ngăn heap và stack ghi đè lên nó
     -   Text segment có thể sharable để 1 bản copy trong bộ nhớ cho các chương trình thường xuyên sử dụng, thường là read-only để tránh chương trình modify nó
 
-## Thread
+## 1.3. Thread
 
-###   Khái niệm Thread
+### 1.3.1. Khái niệm Thread
 
 -   Thread là thuật ngữ khá quen thuộc, thường được gọi là "luồng" hay "tiểu trình"
 -   Thread là một cơ chế cho phép một ứng dụng thực thi đồng thời nhiều task
@@ -167,11 +196,11 @@
 -   Nhược điểm:
     -   Dùng chung vùng nhớ toàn cục nên khá nguyên hiểm, 1 thread gây lỗi trên vùng nhớ thì kéo theo thread khác
     -   Một tiến trình bị giới hạn số lượng thread được tạo ra do vùng nhớ toàn cục của 1 tiến trình có bộ nhớ hữu hạn
-###   POSIX Thread
+### 1.3.2. POSIX Thread
 -   Ban đầu, mỗi nhà cung cấp tự tạo phần cứng triển khai thread và API cho riêng mình nên gây khó khăn cho lập trình viên trong việc học và viết chương trình thread chạy đa nền tảng
 -   Tiêu chuẩn POSIX thread (hay còn gọi là pthread) ra đời nhằm cung cấp 1 giao diện lập trình thread chung trên C/C++ 
 
-###   API trong POSIX
+### 1.3.3. API trong POSIX
 
 | Kiểu dữ liệu        | Mô tả                              |
 |---------------------|------------------------------------|
@@ -183,10 +212,18 @@
 | pthread_key_t       | Khóa cho dữ liệu của thread        |
 | pthread_attr_t      | Thuộc tính của thread              |
 
+-   pthread_create() tạo một thread mới trong 1 tiến trình, pthread_create trả về 0 nếu thành công
+-   pthead_equal() so sánh thread id giữa 2 thread trả về khác 0 nếu cùng thread
+-   pthread_exit() hủy thread đang chạy và sẵn sàng cho việc join thread
+-   Nếu luồng xử lý đích không bị tách ra và không có luồng nào khác được nối với luồng đã chỉ định thì hàm pthread_join () sẽ tạm dừng thực thi luồng hiện tại và chờ luồng xử lý đích kết thúc. Nếu không, kết quả là không xác định
+-   pthread_self() trả về thread id của thread đang gọi
+-   pthread_mutex_init() tạo một mutex mới, với các thuộc tính được chỉ định bằng attr hoặc thuộc tính mặc định nếu attr là NULL
+-   pthread_mutex_destroy() hủy mutex được chỉ định bởi mutex. Nếu pthread_mutex_destroy() thành công, nó sẽ trả về 0, nếu không sẽ trả về một số lỗi cho biết lỗi
+-   pthread_mutex_lock() sẽ khóa mutex được chỉ định bởi mutex. Nếu mutex đã bị khóa, thread đang gọi sẽ bị block cho đến khi mutex sẵn sàng
+-   pthread_mutex_unlock() sẽ mở khóa mutex, ngược lại so với pthread_mutex_lock()
 
-
-###   Multi-Threading, các vấn đề gặp phải
-###   `Race condition` và `Deadlock`, cách ngăn chặn
+### 1.3.4. Multi-Threading, các vấn đề gặp phải
+### 1.3.5. `Race condition` và `Deadlock`, cách ngăn chặn
 -   Trong lĩnh vực lập trình Race condition là một tình huống xảy ra khi nhiều threads cùng truy cập và cùng lúc muốn thay đổi dữ liệu (có thể là 1 biến, 1 row trong database, 1 vùng shared data, memory , etc...). 
 Vì thuật toán chuyển đổi việc thực thi giữa các threads có thể xảy ra bất cứ lúc nào nên không thể biết được thứ tự của các threads truy cập và thay đổi dữ liệu đó sẽ dẫn đến giá trị của data sẽ không như mong muốn. Kết quả sẽ phụ thuộc vào thuật toán thread scheduling của hệ điều hành.
 
@@ -205,9 +242,9 @@ Vì thuật toán chuyển đổi việc thực thi giữa các threads có th�
     -   No Preemption (không thu hồi): hệ thống không thể thu hồi tài nguyên cấp cho 1 tiến trình nào đó, trừ khi tiến trình này trả lại tài nguyên
     -   Circular wait (vòng tròn chờ): Quá trình phải chờ tài nguyên theo kiểu vòng tròn. Giả sử chúng ta có ba quy trình {P0, P1, P2}. P0 phải chờ tài nguyên do P1 nắm giữ; P1 phải chờ để có được tài nguyên được giữ bởi quy trình P2 và P2 phải chờ để có được quy trình do P0 nắm giữ
 
-## Synchronization
+## 1.4. Synchronization
 
-###   Khái niệm `Semaphore`, so sánh `Semaphore` với `Mutex`
+### 1.4.1. Khái niệm `Semaphore`, so sánh `Semaphore` với `Mutex`
 
 -   `Semaphore` là một biến có đặc tính sau: chỉ có 2 thao tác được định nghĩa trên Semaphore :
     -   Down(s): giảm giá trị của Semaphore s đi 1 đơn vị nếu semaphore có giá trị lớn hơn 0, và tiếp tục xử lí. Ngược lại nếu giá trị của s < 0, tiến trình phải chờ đến khi s > 0
@@ -217,7 +254,7 @@ Vì thuật toán chuyển đổi việc thực thi giữa các threads có th�
 -   `Mutex` là một phiên bản đặc biệt của `Semaphore` nó được dùng khi chức năng của Semaphore không cần thiết sử dụng
 -   Một `Mutex` có thể có 1 trong 2 trạng thái: khóa hoặc mở. Thường biến mutex là kiểu int, giá trị 0 biểu diễn trạng thái mở và giá trị 1 biểu diễn trạng thái khóa
   
-###   `Reader writer problem`
+### 1.4.2. `Reader writer problem`
 -   Bài toán đọc-ghi là một trong những bài toán kinh điển trong xử lí đồng bộ
 -   Bài toán mô hình hóa việc truy cập dữ liệu. Xem xét 1 hệ thống đặt vé máy bay có nhiều tiến trình muốn đọc và ghi. Hệ thống cho phép nhiều tiến trình có thể đọc cùng lúc nhưng ghi thì chỉ duy nhất 1 tiến trình ghi mà không có tiến trình nào khác đọc hay ghi cùng lúc
 -   Giaỉ pháp:
@@ -261,9 +298,9 @@ Vì thuật toán chuyển đổi việc thực thi giữa các threads có th�
 
 -   Trong giải pháp này, tiến trình đọc đầu tiên thực hiện lệnh down(db) trên semaphore db để vào miền găng, các tiến trình tiếp theo chỉ việc tăng biến đếm rc. Nếu thằng cuối cùng đọc xong (rc==0) nó up(db) để cho phép tiến trình ghi được vào miền găng
 
-## Networking
+## 1.5. Networking
 
-### Socket
+### 1.5.1. Socket
 >  Socket là một cổng logic mà một chương trình sử dụng để kết nối với một chương trình khác chạy trên một máy tính khác trên Internet. Chương trình mạng có thể sử dụng nhiều socket cùng một lúc, nhờ đó nhiều chương trình có thể sử dụng Internet cùng một lúc
 
 -   Socket là điểm cuối trong quá trình truyền thông. Mỗi tiến trình tham gia truyền thông cần phải có socket
@@ -275,7 +312,7 @@ Vì thuật toán chuyển đổi việc thực thi giữa các threads có th�
 -   Tất cả các kết nối phải là duy nhất, nếu 1 tiến trình khác trên máy X muốn kết nối với web server này phải dùng 1 port khác trên máy X để liên lạc, không được dùng lại port 5000 lúc nãy
 
  
-### TCP và UDP
+### 1.5.2. TCP và UDP
 
 ![](https://1.bp.blogspot.com/-kVybw01wcFw/W9SBPDNnPqI/AAAAAAAAG00/I5sG3oGXcKo5jk7OEYQUNallBI0comuiwCLcBGAs/s1600/tcp-versus-udp.jpg)
 
@@ -307,9 +344,9 @@ Vì thuật toán chuyển đổi việc thực thi giữa các threads có th�
           - Không đảm bảo
           - Tốc độ truyền cao, VoIP (Voice over Internet Protocol) truyền tốt qua UDP
 
-### Nonblocking I/O và Blocking I/O
+### 1.5.3. Nonblocking I/O và Blocking I/O
 
-####  Blocking I/O
+#### 1.5.3.1. Blocking I/O
 -   Yêu cầu thực thi một IO operation, sau khi hoàn thành thì trả kết quả lại. Process/Theard gọi bị block cho đến khi có kết quả trả về hoặc xảy ra ngoại lệ
 -   Khi một client request để connect đến server, thread xử lí connection bị blocked cho đến khi request đó được thực hiện xong hoàn toàn. 
 -   Chẳng hạn như lấy data từ database thì phải có dữ liệu trả về, hoặc thêm sửa xóa dữ liệu thì cũng phải có phản hồi trả về cho việc hoàn thành công việc từ phía server
@@ -324,7 +361,7 @@ Vì thuật toán chuyển đổi việc thực thi giữa các threads có th�
     -   Mỗi luồng xử lý dữ liệu của từng request yêu cầu cấp bộ nhớ stack cho nó, cho nên việc có nhiều luồng như vậy sẽ chiếm rất nhiều bộ nhớ, khiến nó trở nên cồng kềnh và khó khăn trong việc chuyển đổi qua lại giữa các luồng
     -   Ở mỗi thời điểm thì chỉ có mỗi một luồng được xử lý còn tất cả các luồng còn lại phải chờ, điều này làm cho lãng phí bộ nhớ không cần thiết khi mà chúng ta phải cấp quá nhiều bộ nhớ cho việc đứng chờ như vậy
 
-#### Non-blocking I/O
+#### 1.5.3.2. Non-blocking I/O
 
 -   Yêu cầu thực thi IO operation và trả về ngay lập tức (timeout = 0). Nếu operation chưa sẵn sàng để thực hiện thì thử lại sau. Tương đương với kiểm tra IO operation có sẵn sàng ngay hay không, nếu có thì thực hiện và trả về, nếu không thì thông báo thử lại sau
 -   Thay vì ghi dữ liệu vào out stream và đọc dữ liệu từ input stream chúng ta sẽ đọc và ghi bộ nhớ đệm, đây là bộ nhớ tạm thay vì tương tác trực tiếp
@@ -333,20 +370,36 @@ Vì thuật toán chuyển đổi việc thực thi giữa các threads có th�
 
 -   Selector cho phép một luồng đơn được phép kiểm tra tất cả các sự kiện trên nhiều kênh, do vậy nó có thể kiểm tra  được việc một kênh nào đó có sẵn sàng cho việc đọc ghi data hay không. Nhiều kênh khác nhau có thể đăng ký một đối tượng selector với select key để phân biệt
 
-# Bài tập
+# 2. Bài tập
 
-## Viết chương trình C mô phỏng ls -l
+## 2.1. Viết chương trình C mô phỏng ls -l
 
-[Code](exercise/ls/ls.c)
+-   Bài này sử dụng hàm readdir để đọc từng file trong thư mục, sau đó dùng syscall stat để lấy được thông tin của file đó
+  
+    ```C
+    int stat(const char *path, struct stat *buf);
+    ```
+-   Sử dụng các hàm kiểm tra loại file S_ISDIR(), S_ISREG(), S_ISCHR(), S_ISBLK(), S_ISLNK(), S_ISFIFO(), S_ISSOCK()
+
+-   Công thức tính total: tổng số blocks của các file / 1024 * 512
+
+-   [Code](exercise/ls/ls.c)
 
 
-## Trò chơi xếp bi
-
-[Server code](exercise/docker-image/code/server.c)
-
-[Client code](exercise/docker-image/code/client.c)
-
-# Nguồn tham khảo
+## 2.2. Trò chơi xếp bi
+-   Bên phía server tạo socket và thực hiện lắng nghe các kết nối. Cứ mỗi khi có kết nối từ phía client, sử dụng hàm pthread_create để tạo thread cho mỗi client
+-   Sử dụng một struct client lưu lại socket, tình trạng là active tức là có đang kết nối server hay không và isOver tức là đã lấy hết bi hay chưa
+-   Server giới hạn số lượng client sẽ kết nối nếu vượt quá không cho kết nối
+-   Tại mỗi luồng thực hiện nhận và gửi các thông điệp giữa server và client thông điệp get là lấy 1 viên bi từ server, over là hết bi, post là hết bi và client sẽ bắt đầu gửi file số bi về server
+-   Server sử dụng hàm checkAllFileReceived để kiểm tra nếu đã nhận hết các file của active client sau đó tính tổng cho mỗi client lưu vào mảng struct Rank, rồi sort theo tổng, ghi vào file sau đó gửi về tất cả client thông qua các socket đã lưu
+-   [Server code](exercise/docker-image/code/server.c)
+-   Bên phía client chủ yếu gửi các yêu cầu, nhận file và gửi file về phía server
+-   [Client code](exercise/docker-image/code/client.c)
+-   Buid code thông qua [Makefile](exercise/docker-image/code/Makefile)
+-   [Script chạy server](exercise/docker-image/code/runServerXepBi.sh)
+-   [Script chạy client](exercise/docker-image/code/runClientXepBi.sh)
+  
+# 3. Nguồn tham khảo
 
 https://vimentor.com/vi/lesson/gioi-thieu-ve-file-i-o
 
@@ -367,3 +420,5 @@ http://faculty.salina.k-state.edu/tim/ossg/Device/blocking.html
 https://medium.com/coderscorner/tale-of-client-server-and-socket-a6ef54a74763
 
 https://viblo.asia/p/blocking-io-va-non-blocking-io-client-server-socket-1VgZvX415Aw
+
+http://www.cs.wm.edu/wmpthreads.html

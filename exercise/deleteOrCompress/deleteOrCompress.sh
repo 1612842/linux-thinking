@@ -1,30 +1,23 @@
 #!/bin/bash
 
-SCRIPT=${0##*/}
+
 RUNUSER=$(whoami)
-SIZE=100 
-TARGETDIR=/home/${RUNUSER}/Desktop/linux-thinking
-LOG=/home/${RUNUSER}/Desktop/linux-thinking/${SCRIPT%%.sh}_${RUNUSER}.log
-FILES=($(find ${TARGETDIR} -type f -size +${SIZE}k))
+SIZE=102400
+
+TARGETDIR=/home/${RUNUSER}/Desktop/linux-thinking/exercise/deleteOrCompress/test
+LOG=/home/${RUNUSER}/Desktop/linux-thinking/exercise/deleteOrCompress/log_${RUNUSER}.log
+FILES=($(find ${TARGETDIR} -type f -size +${SIZE}c))
  
 
-echo "Showing all files larger than ${SIZE} bytes in ${TARGETDIR} sorted by size."
-find ${TARGETDIR} -type f -size +${SIZE}k -ls | sort -k2n
-echo -e "\n\n------File menu------"
+
 while [[ ${#FILES[@]} -gt 0 ]]; do
-        PS3="Please choose a file:"
-        select file in ${FILES[@]}
-        do
-            [[ -z ${file} ]] && {
-                  echo "Invalid choice!"
-            } || {
-                break
-            }
-        done    
+        
+echo -e "\nShowing all files larger than ${SIZE} bytes in ${TARGETDIR}"
+echo $(find ${TARGETDIR} -type f -size +${SIZE}c | wc -l) files
+find ${TARGETDIR} -type f -size +${SIZE}c -print0 | xargs -0 -I {} bash -c "echo -n '{} --------- '  && stat -c%s '{}' | tr -d '\n' && echo ' bytes.'"
         
 PS3="Select an option:"
-echo -e "\nYou have selected the below file. Do you want to REMOVE or ZIP the file?"
-ls -ltr ${file}
+echo -e "\nDo you want to REMOVE or ZIP these files?"
  
 select option in ZIP REMOVE BACK
 do
@@ -34,18 +27,22 @@ do
                 break
         }
 done
- 
+
 case ${option} in
         "ZIP" )
         echo "You chose ZIP. Zipping file now..."
-        gzip ${file}
-        echo "$(date "+%F %T") ${file} compressed."
+        find ${TARGETDIR} -type f ! -name '*.gz' -size +${SIZE}c -exec gzip "{}" \;
+        echo "$(date "+%F %T") all above file are compressed."
                 ;;
                 
         "REMOVE" )
         echo "You chose REMOVE. Removing file now..."
-        rm ${file}
+       
+        find ${TARGETDIR} -type f -size +${SIZE}c -exec rm {} \;
+        for file in ${FILES[@]}
+        do
         echo "$(date "+%F %T") ${file} removed." | tee -a ${LOG}
+        done
                 ;;
                 
         "BACK" )
@@ -53,6 +50,8 @@ case ${option} in
                 ;;
 esac
  
-FILES=($(find ${TARGETDIR} -type f -size +${SIZE}k))
+FILES=($(find ${TARGETDIR} -type f -size +${SIZE}c))
+
+
  
 done

@@ -500,7 +500,9 @@ find -regex '.*copy.*' -exec  rm -rf {} \;
 
 ### 2.2.5. List, one at a time, all files larger than 100K in the /home/username directory tree. Give the user the option to delete or compress the file, then proceed to show the next one. Write to a logfile the names of all deleted files and the deletion times.
 
-[File script](exercise/deleteOrCompress/deleteOrCompress.sh)
+-  Đối với bài tập này, ta sử dụng các lệnh cơ bản trong Linux shell như cấu trúc lặp while .. do, lặp có chọn select .. in, điều kiện rẽ nhánh với case .. in. Bên cạnh đó là các command tìm kiếm với find, gzip để nén và rm để xóa kết hợp với lệnh find, lệnh tee để ghi ra log
+  
+-  [File script](exercise/deleteOrCompress/deleteOrCompress.sh)
 
 ## 2.3. Shell Scripting
 

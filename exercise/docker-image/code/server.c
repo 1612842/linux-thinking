@@ -170,6 +170,7 @@ void *connection_handler(void *socket_descriptor)
         // read the message from client and copy it in buffer
         int index = read(sock, buff, sizeof(buff));
 
+        
         if (index == 0)
         {
             if (cur_clients>max_clients){
@@ -260,19 +261,22 @@ void *connection_handler(void *socket_descriptor)
                     posNum++;
                 }
 
-                pthread_mutex_unlock(&lock);
                 
+                pthread_mutex_unlock(&lock);
             }
 
+        
             
        if (strcmp(buff, "post\n") == 0)
         {
                 clientInfo[idClient].isOver = 1;
                 printf("post....\n");
         }
+
+        
         
     }
-
+    
     close(sock);
 
     return 0;

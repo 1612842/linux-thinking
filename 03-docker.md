@@ -1,10 +1,25 @@
-# Tất tần cơ bản về Docker
+<!-- TOC -->
+- [1. Tất tần cơ bản về Docker](#1-t%E1%BA%A5t-t%E1%BA%A7n-c%C6%A1-b%E1%BA%A3n-v%E1%BB%81-docker)
+- [2. Giới thiệu](#2-gi%E1%BB%9Bi-thi%E1%BB%87u)
+- [3. Container](#3-container)
+  - [3.1. Tiểu sử](#31-ti%E1%BB%83u-s%E1%BB%AD)
+  - [3.2. Đặc điểm](#32-%C4%91%E1%BA%B7c-%C4%91i%E1%BB%83m)
+- [4. Cách hoạt động](#4-c%C3%A1ch-ho%E1%BA%A1t-%C4%91%E1%BB%99ng)
+- [5. Các lệnh cơ bản](#5-c%C3%A1c-l%E1%BB%87nh-c%C6%A1-b%E1%BA%A3n)
+- [6. Viết Dockerfile cơ bản](#6-vi%E1%BA%BFt-dockerfile-c%C6%A1-b%E1%BA%A3n)
+- [7. Thực hành với Xếp bi](#7-th%E1%BB%B1c-h%C3%A0nh-v%E1%BB%9Bi-x%E1%BA%BFp-bi)
+- [8. Nguồn tham khảo](#8-ngu%E1%BB%93n-tham-kh%E1%BA%A3o)
+<!-- /TOC -->
+
+# 1. Tất tần cơ bản về Docker
 
 <div align="center">
     <img alt="linux" src="https://images.viblo.asia/117ac0d5-3872-4a83-b27a-487089594df2.png">
 </div>
 
-# Giới thiệu 
+
+
+# 2. Giới thiệu 
 -   Docker có rất nhiều định nghĩa:
     -   Docker là một dự án `mã nguồn mở` giúp tự động triển khai các ứng dụng Linux và Windows vào trong các `container` ảo hóa
     -   Nói cách khác, Docker là một `open platform` cung cấp cho người sử dụng các công cụ và server để có thể `đóng gói` và `chạy chương trình` của mình trên `môi trường khác nhau` nhanh nhất có thể
@@ -27,9 +42,9 @@
         -   Có nét giống với directory giữ mọi thứ chúng ta cần để chạy 1 app
         -   Mỗi container được tạo từ Docker image. Docker container có thể có các trạng thái run, started, stopped, moved và deleted
 
-# Container
+# 3. Container
 
-## Tiểu sử 
+## 3.1. Tiểu sử 
 -   Ngày xưa, mỗi máy chỉ chạy 1 OS có cấu tạo sau: `máy chủ vật lý` + `hệ điều hành (OS)` + `application`
   
     <div align="center">
@@ -53,7 +68,7 @@
     -   Trên 1 máy chủ vật lý, sinh ra nhiều máy con, máy con này dùng chung phần nhân của máy mẹ (Host OS) và chia sẻ nhau tài nguyên máy mẹ
     -   Khi nào tài nguyên cần thì cấp, sài bao nhiêu cấp bấy nhiêu
 
-## Đặc điểm
+## 3.2. Đặc điểm
 
 -   Các phần mềm sẽ được `Container Engine` đóng gói thành các `container`
 -   `Container` là giải pháp chuyển giao phần mềm đáng tin cậy giữa các `môi trường` máy tính khác nhau bằng cách
@@ -70,7 +85,7 @@
 -   Nhược điểm:
     -   Nếu Host OS có lỗ hỏng ở kernel sẽ ảnh hưởng toàn bộ container có trong host đấy
     -   Người dùng hoặc ứng dụng nào đấy trong container chiếm được quyền root có thể lấy data hay điều khiển máy host cũng như container khác
-# Cách hoạt động
+# 4. Cách hoạt động
 -   Docker image là nền tảng của container, là khung xương để định hình container, khi chạy image sẽ tạo ra container. Giống như class so với thực thể
 -   Đối với Docker cần phải có image và container:
     -   Container: tương tự như máy ảo, xuất hiện khi chạy image
@@ -98,7 +113,7 @@
 
 -   Client gửi các commands tới docker daemon, docker daemon thực hiện chúng. Ví dụ nếu build thì client - docker daemon - images, nếu pull thì client - docker daemon - registry - images, nếu run thì client - docker daemon - images - containers
 
-# Các lệnh cơ bản 
+# 5. Các lệnh cơ bản 
 -   Cài đặt Docker:
 
 ```bash
@@ -209,7 +224,7 @@ docker build -t {container_name} .
     -   `docker run`: thao tác đến các images đã tồn tại hoặc truy xuất từ localhost, mỗi lần chạy command sẽ tạo ra 1 container mới tương ứng
     -   `docker start`: bắt đầu lại container và khởi động container chạy đến lần xử lý dừng tiếp theo
 
-# Viết Dockerfile cơ bản
+# 6. Viết Dockerfile cơ bản
 
 -   `Dockerfile` là một tập tin dạng text chứa một tập các câu lệnh để tạo mới một Image trong Docker
 -   Một số lệnh trong Dockerfile:
@@ -279,7 +294,19 @@ hello world, from a script file!
 ```
 
 
-# Thực hành với Xếp bi
+# 7. Thực hành với Xếp bi
+-   Tips: chạy Docker với quyền non-root
+    -   Tạo docker group
+
+        ```docker
+        $ sudo groupadd docker
+        ```
+    -   Add user vào docker group
+
+        ```docker
+        $ sudo usermod -aG docker $USER
+        ```
+    -   Log out và sau đó log in lại ta sẽ chạy được với non-root user
 
 -   Ta có thể thực hiện 2 cách 
     -   Cách 1: chỉ cần deploy file out đã compile từ gcc
@@ -323,7 +350,7 @@ hello world, from a script file!
 ![](media/clienttcp.png)
 
 
-# Nguồn tham khảo
+# 8. Nguồn tham khảo
 
 https://docs.docker.com/engine/docker-overview/
 
