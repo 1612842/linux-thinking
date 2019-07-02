@@ -1,13 +1,13 @@
-- [1. Tất tần cơ bản về Docker](#1-t%E1%BA%A5t-t%E1%BA%A7n-c%C6%A1-b%E1%BA%A3n-v%E1%BB%81-docker)
-- [2. Giới thiệu](#2-gi%E1%BB%9Bi-thi%E1%BB%87u)
-- [3. Container](#3-container)
-  - [3.1. Tiểu sử](#31-ti%E1%BB%83u-s%E1%BB%AD)
-  - [3.2. Đặc điểm](#32-%C4%91%E1%BA%B7c-%C4%91i%E1%BB%83m)
-- [4. Cách hoạt động](#4-c%C3%A1ch-ho%E1%BA%A1t-%C4%91%E1%BB%99ng)
-- [5. Các lệnh cơ bản](#5-c%C3%A1c-l%E1%BB%87nh-c%C6%A1-b%E1%BA%A3n)
-- [6. Viết Dockerfile cơ bản](#6-vi%E1%BA%BFt-dockerfile-c%C6%A1-b%E1%BA%A3n)
-- [7. Thực hành với Xếp bi](#7-th%E1%BB%B1c-h%C3%A0nh-v%E1%BB%9Bi-x%E1%BA%BFp-bi)
-- [8. Nguồn tham khảo](#8-ngu%E1%BB%93n-tham-kh%E1%BA%A3o)
+- [1. Tất tần cơ bản về Docker](#1-T%E1%BA%A5t-t%E1%BA%A7n-c%C6%A1-b%E1%BA%A3n-v%E1%BB%81-Docker)
+- [2. Giới thiệu](#2-Gi%E1%BB%9Bi-thi%E1%BB%87u)
+- [3. Container](#3-Container)
+  - [3.1. Tiểu sử](#31-Ti%E1%BB%83u-s%E1%BB%AD)
+  - [3.2. Đặc điểm](#32-%C4%90%E1%BA%B7c-%C4%91i%E1%BB%83m)
+- [4. Cách hoạt động](#4-C%C3%A1ch-ho%E1%BA%A1t-%C4%91%E1%BB%99ng)
+- [5. Các lệnh cơ bản](#5-C%C3%A1c-l%E1%BB%87nh-c%C6%A1-b%E1%BA%A3n)
+- [6. Viết Dockerfile cơ bản](#6-Vi%E1%BA%BFt-Dockerfile-c%C6%A1-b%E1%BA%A3n)
+- [7. Thực hành với Xếp bi](#7-Th%E1%BB%B1c-h%C3%A0nh-v%E1%BB%9Bi-X%E1%BA%BFp-bi)
+- [8. Nguồn tham khảo](#8-Ngu%E1%BB%93n-tham-kh%E1%BA%A3o)
 
 
 # 1. Tất tần cơ bản về Docker
@@ -48,7 +48,8 @@
 -   Ngày xưa, mỗi máy chỉ chạy 1 OS có cấu tạo sau: `máy chủ vật lý` + `hệ điều hành (OS)` + `application`
   
     <div align="center">
-    <img alt="linux" src="https://viblo.asia/uploads/19a271ca-f444-4bd5-b04a-f1b9c5ce10fd.png">
+
+    <img alt="linux" src="./media/m.png">
     </div>
 
 -   Sau đó, để có thể tận dụng phần cứng nhiều hơn, công nghệ ảo hóa `virtualization` ra đời như Virtual Box hay VMware. Công nghệ này có thể cài đặt nhiều OS nhưng lại bị hạn chế về tài nguyên và thời gian
@@ -56,13 +57,13 @@
     -   Thời gian: khởi động khá lâu, lên tới hàng phút
 
     <div align="center">
-    <img alt="linux" src="https://viblo.asia/uploads/f83e4a3a-bc95-4a4d-af37-dbaa9e03d28f.png">
+    <img alt="linux" src="./media/v.png"">
     </div>
 
 -   Để giải quyết vấn đề của `virtualiztion`, công nghệ `containerlization` ra đời
 
      <div align="center">
-    <img alt="linux" src="https://viblo.asia/uploads/5fdfbb3b-de87-4b24-a65c-3cf8753bfa15.png">
+    <img alt="linux" src="./media/c.png"">
     </div>
 
     -   Trên 1 máy chủ vật lý, sinh ra nhiều máy con, máy con này dùng chung phần nhân của máy mẹ (Host OS) và chia sẻ nhau tài nguyên máy mẹ
