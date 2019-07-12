@@ -1,4 +1,0 @@
-Rank: 1 - Client: 1 - Sum: 117
-Rank: 2 - Client: 0 - Sum: 104
-Rank: 3 - Client: 3 - Sum: 99
-Rank: 4 - Client: 2 - Sum: 58

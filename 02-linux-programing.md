@@ -1,29 +1,29 @@
-- [1. Lý thuyết](#1-l%C3%BD-thuy%E1%BA%BFt)
-  - [1.1. File and File System in Linux](#11-file-and-file-system-in-linux)
-    - [1.1.1. `File descriptor`](#111-file-descriptor)
-    - [1.1.2. `Regular files` and `Special files`](#112-regular-files-and-special-files)
-  - [1.2. Process](#12-process)
-    - [1.2.1. Khái niệm](#121-kh%C3%A1i-ni%E1%BB%87m)
-    - [1.2.2. `Memory Layout`](#122-memory-layout)
-  - [1.3. Thread](#13-thread)
-    - [1.3.1. Khái niệm Thread](#131-kh%C3%A1i-ni%E1%BB%87m-thread)
-    - [1.3.2. POSIX Thread](#132-posix-thread)
-    - [1.3.3. API trong POSIX](#133-api-trong-posix)
-    - [1.3.4. Multi-Threading, các vấn đề gặp phải](#134-multi-threading-c%C3%A1c-v%E1%BA%A5n-%C4%91%E1%BB%81-g%E1%BA%B7p-ph%E1%BA%A3i)
-    - [1.3.5. `Race condition` và `Deadlock`, cách ngăn chặn](#135-race-condition-v%C3%A0-deadlock-c%C3%A1ch-ng%C4%83n-ch%E1%BA%B7n)
-  - [1.4. Synchronization](#14-synchronization)
-    - [1.4.1. Khái niệm `Semaphore`, so sánh `Semaphore` với `Mutex`](#141-kh%C3%A1i-ni%E1%BB%87m-semaphore-so-s%C3%A1nh-semaphore-v%E1%BB%9Bi-mutex)
-    - [1.4.2. `Reader writer problem`](#142-reader-writer-problem)
-  - [1.5. Networking](#15-networking)
-    - [1.5.1. Socket](#151-socket)
-    - [1.5.2. TCP và UDP](#152-tcp-v%C3%A0-udp)
-    - [1.5.3. Nonblocking I/O và Blocking I/O](#153-nonblocking-io-v%C3%A0-blocking-io)
-      - [1.5.3.1. Blocking I/O](#1531-blocking-io)
-      - [1.5.3.2. Non-blocking I/O](#1532-non-blocking-io)
-- [2. Bài tập](#2-b%C3%A0i-t%E1%BA%ADp)
-  - [2.1. Viết chương trình C mô phỏng ls -l](#21-vi%E1%BA%BFt-ch%C6%B0%C6%A1ng-tr%C3%ACnh-c-m%C3%B4-ph%E1%BB%8Fng-ls--l)
-  - [2.2. Trò chơi xếp bi](#22-tr%C3%B2-ch%C6%A1i-x%E1%BA%BFp-bi)
-- [3. Nguồn tham khảo](#3-ngu%E1%BB%93n-tham-kh%E1%BA%A3o)
+- [1. Lý thuyết](#1-L%C3%BD-thuy%E1%BA%BFt)
+  - [1.1. File and File System in Linux](#11-File-and-File-System-in-Linux)
+    - [1.1.1. `File descriptor`](#111-File-descriptor)
+    - [1.1.2. `Regular files` and `Special files`](#112-Regular-files-and-Special-files)
+  - [1.2. Process](#12-Process)
+    - [1.2.1. Khái niệm](#121-Kh%C3%A1i-ni%E1%BB%87m)
+    - [1.2.2. `Memory Layout`](#122-Memory-Layout)
+  - [1.3. Thread](#13-Thread)
+    - [1.3.1. Khái niệm Thread](#131-Kh%C3%A1i-ni%E1%BB%87m-Thread)
+    - [1.3.2. POSIX Thread](#132-POSIX-Thread)
+    - [1.3.3. API trong POSIX](#133-API-trong-POSIX)
+    - [1.3.4. Multi-Threading, các vấn đề gặp phải](#134-Multi-Threading-c%C3%A1c-v%E1%BA%A5n-%C4%91%E1%BB%81-g%E1%BA%B7p-ph%E1%BA%A3i)
+    - [1.3.5. `Race condition` và `Deadlock`, cách ngăn chặn](#135-Race-condition-v%C3%A0-Deadlock-c%C3%A1ch-ng%C4%83n-ch%E1%BA%B7n)
+  - [1.4. Synchronization](#14-Synchronization)
+    - [1.4.1. Khái niệm `Semaphore`, so sánh `Semaphore` với `Mutex`](#141-Kh%C3%A1i-ni%E1%BB%87m-Semaphore-so-s%C3%A1nh-Semaphore-v%E1%BB%9Bi-Mutex)
+    - [1.4.2. `Reader writer problem`](#142-Reader-writer-problem)
+  - [1.5. Networking](#15-Networking)
+    - [1.5.1. Socket](#151-Socket)
+    - [1.5.2. TCP và UDP](#152-TCP-v%C3%A0-UDP)
+    - [1.5.3. Nonblocking I/O và Blocking I/O](#153-Nonblocking-IO-v%C3%A0-Blocking-IO)
+      - [1.5.3.1. Blocking I/O](#1531-Blocking-IO)
+      - [1.5.3.2. Non-blocking I/O](#1532-Non-blocking-IO)
+- [2. Bài tập](#2-B%C3%A0i-t%E1%BA%ADp)
+  - [2.1. Viết chương trình C mô phỏng ls -l](#21-Vi%E1%BA%BFt-ch%C6%B0%C6%A1ng-tr%C3%ACnh-C-m%C3%B4-ph%E1%BB%8Fng-ls--l)
+  - [2.2. Trò chơi xếp bi](#22-Tr%C3%B2-ch%C6%A1i-x%E1%BA%BFp-bi)
+- [3. Nguồn tham khảo](#3-Ngu%E1%BB%93n-tham-kh%E1%BA%A3o)
 
 
 # 1. Lý thuyết
@@ -171,6 +171,20 @@
     -   Được đặt dưới heap và stack để ngăn heap và stack ghi đè lên nó
     -   Text segment có thể sharable để 1 bản copy trong bộ nhớ cho các chương trình thường xuyên sử dụng, thường là read-only để tránh chương trình modify nó
 
+-   So sánh Stack và Heap:
+
+| Stack 	| Heap 	|
+|-----------------------------------------------------------------------------------	|-------------------------------------------------------------------------------------------------------------------------------	|
+| Bộ nhớ được cấp phát trong các khối liền kề 	| Bộ nhớ được cấp phát theo thứ tự ngẫu nhiên 	|
+| Việc cấp phát và giải phóng vùng nhớ thực hiện tự động bởi  compiler instructions 	| Cấp phát và giải phóng vùng nhớ do người lập trình thực hiện, tuy nhiên một số ngôn ngữ như Java có cơ chế tự động giải phóng 	|
+| Chi phí thấp 	| Chi phí cao hơn 	|
+| implement khó  	| implement dễ 	|
+| access time nhanh hơn 	| access time chậm hơn 	|
+| có vấn đề về thiếu hụt bộ nhớ 	| có vấn đề về phân mảnh vùng nhớ 	|
+| local variable only 	| variables có thể được truy cập globally 	|
+| Stack có kích thước cố định 	| Heap có kích thước linh động, có khả năng điều chỉnh kích thước 	|
+| Không gian được quản lý hiệu quả bởi CPU, vùng nhớ không bị phân mảnh 	| Không đảm bảo việc sử dụng hiệu quả không gian 	|
+
 ## 1.3. Thread
 
 ### 1.3.1. Khái niệm Thread
@@ -195,6 +209,32 @@
 -   Nhược điểm:
     -   Dùng chung vùng nhớ toàn cục nên khá nguyên hiểm, 1 thread gây lỗi trên vùng nhớ thì kéo theo thread khác
     -   Một tiến trình bị giới hạn số lượng thread được tạo ra do vùng nhớ toàn cục của 1 tiến trình có bộ nhớ hữu hạn
+-   So sánh Thread và Process:
+
+| Process 	| Thread 	|
+|----------------------------------------------------------------------------------------	|-------------------------------------------------------------------------------------------------------------	|
+| Là một chương trình đang chạy trên máy tính 	| Là tiểu trình được quản lý độc lập bởi scheduler và là 1 phần của process 	|
+| Yêu cầu nhiều thời gian hơn để thực hiện  context switchs vì process nặng hơn 	| Yêu cầu ít thời gian hơn để context switch vì chúng nhẹ hơn process 	|
+| Process thường thì độc lập và không dùng chung vùng nhớ, muốn dùng chung phải dùng IPC 	| Thread có thể share memory với có thread chung 1 chương trình 	|
+| Giao tiếp giữa các tiến trình yêu cầu nhiều thời gian hơn 	| Giao tiếp giữa các threads yêu cầu ít thời gian hơn 	|
+| Process yêu cầu nhiều tài nguyên hơn thread 	| Threads cần ít tài nguyên hơn 	|
+| Các process đều độc lập với nhau, nên tồn tại độc lập được 	| Thread là một phần của process vì thế chúng phụ thuộc nhau, không có process thì không có thread 	|
+| Process có data và code segment độc lập 	| Thread chia sẻ data, code segment với thread ngang hàng với nó. Dẫn đến các vấn đề race condition, deadlock 	|
+| Tất cả các process được đối xử riêng biệt bởi hệ điều hành 	| Threads được đối xử như 1 single task bởi hệ điều hành 	|
+| Thời gian tạo và hủy lâu hơn 	| Thời gian tạo và hủy nhanh hơn 	|
+
+-   So sánh Concurrency và Parallelism:
+
+| Concurrency 	| Parallelism 	|
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------	|---------------------------------------------------------------------------------------------------------------------------	|
+| Hành động quản lý và chạy nhiều tính toán đồng thời, ví dụ 2 tác vụ chạy trên single core thực hiện đồng thời bằng cách context switch luân phiên giữa 2 tác vụ 	| Chạy nhiều tính toán song song, ví dụ trên multi core chạy 2 tác vụ song song trên 2 core cùng lúc, song song và độc lập  	|
+| Hoạt động xen kẽ trên single core	| Dùng nhiều CPU's core 	|
+| Tăng số lượng công việc được hoàn thành tại 1 thời điểm 	| Cải thiện thông lượng, tăng tốc độ tính toán 	|
+| Tận dụng context switch 	| Multiple CPU cho nhiều process chạy song song 	|
+| Yêu cầu chỉ cần 1 single core CPU 	| Yêu cầu nhiều core CPU 	|
+| Ví dụ: chạy nhiều ứng dụng cùng 1 thời điểm 	| Ví dụ: chạy web crawler on a cluster, tăng tốc crawler 	|
+
+
 ### 1.3.2. POSIX Thread
 -   Ban đầu, mỗi nhà cung cấp tự tạo phần cứng triển khai thread và API cho riêng mình nên gây khó khăn cho lập trình viên trong việc học và viết chương trình thread chạy đa nền tảng
 -   Tiêu chuẩn POSIX thread (hay còn gọi là pthread) ra đời nhằm cung cấp 1 giao diện lập trình thread chung trên C/C++ 
@@ -252,7 +292,20 @@ Vì thuật toán chuyển đổi việc thực thi giữa các threads có th�
 
 -   `Mutex` là một phiên bản đặc biệt của `Semaphore` nó được dùng khi chức năng của Semaphore không cần thiết sử dụng
 -   Một `Mutex` có thể có 1 trong 2 trạng thái: khóa hoặc mở. Thường biến mutex là kiểu int, giá trị 0 biểu diễn trạng thái mở và giá trị 1 biểu diễn trạng thái khóa
-  
+
+-   So sánh Semaphore và mutex:
+
+| Semaphore 	| Mutex 	|
+|----------------------------------------------------------------------------------------------------------------------------------------	|---------------------------------------------------------------------------------------------------------------------------------------	|
+| là một cơ chế báo hiệu 	| là một cơ chế khóa 	|
+| là một số nguyên 	| là một đối tượng 	|
+| Cho phép nhiều tiểu trình chương trình truy cập tài nguyên  	| Cho phép nhiều tiểu trình chương trình truy cập một tài nguyên nhưng không đồng thời 	|
+| Semaphore value có thể được thay đổi bởi bất cứ process nào chiếm hoặc nhả ra tài nguyên 	| Mutex object lock được giải phóng chỉ bởi process nào thực hiện lock nó 	|
+| Semaphore có thể được phân loại thành counting semaphore và binary semaphore 	| Mutex không được phân loại 	|
+| Semaphore value được modified bởi wait() và signal() 	| Mutex object được lock và unlocked bởi process nào yêu cầu và nhả tài nguyên  	|
+| Nếu tất cả tài nguyên được sử dụng, process nào cần tài nguyên thực hiện  tác vụ wait() và tự block nó cho đến khi semaphore lớn hơn 1 	| Nếu 1 mutex object đã bị lock, process muốn tài nguyên đó phải chờ và được xếp vào hàng đợi bởi hệ thống cho tới khi lock được nhả ra 	|
+
+ 
 ### 1.4.2. `Reader writer problem`
 -   Bài toán đọc-ghi là một trong những bài toán kinh điển trong xử lí đồng bộ
 -   Bài toán mô hình hóa việc truy cập dữ liệu. Xem xét 1 hệ thống đặt vé máy bay có nhiều tiến trình muốn đọc và ghi. Hệ thống cho phép nhiều tiến trình có thể đọc cùng lúc nhưng ghi thì chỉ duy nhất 1 tiến trình ghi mà không có tiến trình nào khác đọc hay ghi cùng lúc
@@ -368,6 +421,18 @@ Vì thuật toán chuyển đổi việc thực thi giữa các threads có th�
     ![](https://images.viblo.asia/304df35b-4594-4615-a940-e121ebfdd90e.png)
 
 -   Selector cho phép một luồng đơn được phép kiểm tra tất cả các sự kiện trên nhiều kênh, do vậy nó có thể kiểm tra  được việc một kênh nào đó có sẵn sàng cho việc đọc ghi data hay không. Nhiều kênh khác nhau có thể đăng ký một đối tượng selector với select key để phân biệt
+
+
+-   So sánh Blocking IO và Non-blocking IO:
+
+| Blocking IO 	| Non-blocking IO 	|
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------	|-----------------------------------------------------------------------------------------------------------------------	|
+| Yêu cầu thực thi IO, hoàn thành xong thì trả kết quả lại. Trong thời gian đó, process và thread bị block cho đến khi có kết quả trả về hay xảy ra ngoại lệ 	| Yêu cầu thực thi IO và trả về ngay lập tức, nếu IO operation sẵn sàng thì trả về, ngược lại thì thông báo thử lại  	|
+| Từng request yêu cầu cấp bộ nhớ stack cho nó, nên càng nhiều luồng sẽ chiếm nhiều bộ nhớ, ở một thời điểm chỉ có 1 luồng thực hiện còn lại phải chờ nên lãng phí 	| Sử dụng selector trên 1 luồng đơn cho phép kiểm tra tất cả sự kiện trên nhiều kênh, có thể kiểm tra kênh nào sẵn sàng 	|
+| Ghi dữ liệu vào outstream, đọc dữ liệu từ input stream 	| Đọc ghi bộ nhớ đệm thay vì tương tác trực tiếp 	|
+| Tận dụng các multi-core machine 	| App xử lí Context Switch giữa các client, app context cần được lưu lại trong Event Loop 	|
+| Phù hợp đối với các ứng dụng yêu cầu phải có dữ liệu để thực hiện bước tiếp theo 	| Phù hợp với các ứng dụng yêu cầu phản hồi nhanh, các bước sau không phụ thuộc vào dữ liệu IO để chạy tiếp mà có thể dùng sau 	|
+
 
 # 2. Bài tập
 

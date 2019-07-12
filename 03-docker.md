@@ -60,7 +60,7 @@
     <img alt="linux" src="./media/v.png"">
     </div>
 
--   Để giải quyết vấn đề của `virtualiztion`, công nghệ `containerlization` ra đời
+-   Để giải quyết vấn đề của `virtualization`, công nghệ `containerlization` ra đời
 
      <div align="center">
     <img alt="linux" src="./media/c.png"">
@@ -69,6 +69,17 @@
     -   Trên 1 máy chủ vật lý, sinh ra nhiều máy con, máy con này dùng chung phần nhân của máy mẹ (Host OS) và chia sẻ nhau tài nguyên máy mẹ
     -   Khi nào tài nguyên cần thì cấp, sài bao nhiêu cấp bấy nhiêu
 
+-   So sánh Docker và Virtual Machines:
+
+| Docker 	| Virtual machines 	|
+|------------------------------------------------------------------------------------------------------	|-----------------------------------------------------------------------------------------	|
+| Docker có thời gian boot tính bằng giây 	| Mất vài phút để khởi động 	|
+| Execution tận dụng execution engine, đại diện cho OS virtualization 	| Execution tận dụng Hypervisor, đại diện cho hardware-level virtualization 	|
+| Hiệu quả bộ nhớ hơn vì không cần không gian cho việc ảo hóa 	| Ít hiệu quả memory vì toàn bộ OS được load trước khi start service 	|
+| Không cung cấp việc độc lập với hệ thống nên có khả năng gặp vấn đề hơn 	| Cách ly hiệu quả với hệ điều hành gốc nên khả năng can thiệp OS là thấp 	|
+| Deloy trên Docker cực kì dễ dàng chỉ cần 1 image, containerized, có thể được dùng ở các OS khác nhau 	| Deploy trên VMs là một quá trình khá lâu khi mà giống như các thực thể độc lập thực thi, phải chạy cả OS và chạy tool trên OS độc lập đó 	|
+| Docker có cơ chế quản lý tương đối phức tạp vì bao gồm cả các công cụ quản lý docker và bên thứ 3 	| Các công cụ liên quan đến VM tương đối dễ sử dụng hơn và đơn giản hơn khi làm việc 	|
+| Performance phụ thuộc vào OS chính, hiệu năng cao 	| Performance bị giới hạn ở một mức độ cho phép của OS chính và người dùng 	|
 
 ## 3.2. Đặc điểm
 

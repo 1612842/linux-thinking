@@ -17,6 +17,7 @@ struct Client
     int sock;
     int active;
     int isOver;
+    int isRecvFile;
 } * clientInfo;
 
 int cur_clients = 0;
@@ -170,6 +171,10 @@ void *connection_handler(void *socket_descriptor)
         // read the message from client and copy it in buffer
         int index = read(sock, buff, sizeof(buff));
 
+	if (strcmp(buff, "post\n") == 0)
+        {
+                clientInfo[idClient].isOver = 1;
+        }
         
         if (index == 0)
         {
@@ -189,10 +194,19 @@ void *connection_handler(void *socket_descriptor)
             }
         }
 
+	
+
         if (clientInfo[idClient].isOver == 1)
         {
-            
 
+	    if (strcmp(buff, "post\n")==0)
+            	{
+	     		char tmp[MAX];
+            		strcpy(tmp, "server waits file");
+            		write(sock, tmp, sizeof(buff));
+  		}
+		else
+		{
             char filename[MAX];
             sprintf(filename, "server-%d.txt", idClient);
             FILE *f = fopen(filename, "w");
@@ -203,7 +217,8 @@ void *connection_handler(void *socket_descriptor)
             char tmp[MAX];
             strcpy(tmp, "server has received file");
             write(sock, tmp, sizeof(buff));
-
+            clientInfo[idClient].isRecvFile=1;
+		}
             
         }else if (strcmp(buff, "get\n")!=0&&strcmp(buff, "post\n")!=0){
                 strcpy(buff, "?");
@@ -211,7 +226,7 @@ void *connection_handler(void *socket_descriptor)
         }
 
         // print buffer which contains the client contents
-        printf("From client: %s", buff);
+        printf("\nFrom client %d: %s",idClient, buff);
 
         
         if (checkAllFileReceived()==1){
@@ -266,13 +281,12 @@ void *connection_handler(void *socket_descriptor)
             }
 
         
-            
-       if (strcmp(buff, "post\n") == 0)
+           
+	if (strcmp(buff, "post\n") == 0)
         {
                 clientInfo[idClient].isOver = 1;
                 printf("post....\n");
         }
-
         
         
     }
@@ -309,6 +323,7 @@ void initializeClientInfo()
         clientInfo[i].active = 0;
         clientInfo[i].sock = 0;
         clientInfo[i].isOver = 0;
+        clientInfo[i].isRecvFile = 0;
     }
 }
 
@@ -334,16 +349,16 @@ int getIdClient(int sock)
 }
 
 int checkAllFileReceived(){
-    int numOver=0, numActive=0;
+    int numRecvFile=0, numActive=0;
     for (int i = 0; i < max_clients; i++)
     {
-        if (clientInfo[i].isOver==1)
-            numOver++;
+        if (clientInfo[i].isRecvFile==1)
+            numRecvFile++;
         if (clientInfo[i].active==1)
             numActive++;
     }
 
-    if (numOver==numActive)
+    if (numRecvFile==numActive)
         return 1;
     else
     {

@@ -5,6 +5,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+
 #define MAX 1024
 #define PORT 8080
 #define SA struct sockaddr
@@ -125,7 +126,7 @@ void chat(int sockfd)
         }
 
         if (isAuto==1)
-            sleep(1);
+            usleep(10000);
     }
 }
 

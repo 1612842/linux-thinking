@@ -71,7 +71,7 @@
     -   /var/log: chứa các file lưu lại các activities của hệ thống, liên tục ghi lại hoạt động và thay đổi theo thời gian thực
 
 ## 1.2. `awk`
--   Awk là một ngôn ngữ lập trình hỗ trợ thao tác dễ dàng đối với kiểu dữ liệu có cấu trúc và tạo ra những kết quả được định dạng. Nó được đặt tên bằng cách viết tắt các chữ cái đầu tiên của các tác giả: Aho, Weinberger và Kernighan
+-   Awk tương tự một ngôn ngữ lập trình hỗ trợ thao tác dễ dàng đối với kiểu dữ liệu có cấu trúc và tạo ra những kết quả được định dạng. Nó được đặt tên bằng cách viết tắt các chữ cái đầu tiên của các tác giả: Aho, Weinberger và Kernighan
 -   Awk thường được sử dụng cho việc tìm kiếm và xử lý text. Nó sẽ tìm kiếm một hoặc nhiều file để xem xem trong các file đó có dòng nào bao gồm những `pattern` (khuôn mẫu) cho trước hay không, sau đó thực hiện những `action` (hành động) tương ứng
 -   Một số đặc điểm nổi bật của Awk:
     -   nó xem 1 file text giống như bảng dữ liệu, bao gồm các bản ghi và các trường
